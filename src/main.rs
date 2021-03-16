@@ -1,9 +1,8 @@
-use rustyline::error::ReadlineError;
-use rustyline::Editor;
 use std::io;
 use std::collections::VecDeque;
+
 use crate::Token::{Int, Float};
-use std::io::Read;
+
 
 fn main() {
     let mut input = String::new();
@@ -11,31 +10,38 @@ fn main() {
         match io::stdin().read_line(&mut input) {
             Ok(n) => {
                 println!("{}", input);
-                println!("{:?}", lex(input.as_str()))
+                println!("{:?}", eval(lex(input.as_str())))
             }
             Err(error) => println!("error: {}", error),
         }
     }
 }
 
-pub fn eval(mut stack: Vec<Token>) {
+pub fn eval(mut stack: VecDeque<Token>) -> VecDeque<Token> {
     let top = stack.pop().unwrap();
+    match top {
+        Token::Add => {
+            stack.push_back(stack.pop() + stack.pop());
+        }
+        Token::Eof | _ => "Error!"
+    }
+    stack
 }
 
-pub fn lex(s: &str) -> Vec<Token> {
+pub fn lex(s: &str) -> VecDeque<Token> {
     let iter = s.split_ascii_whitespace().into_iter();
 
-    let mut stack: Vec<Token> = vec![];
+    let mut stack: VecDeque<Token> = VecDeque::new();
     for t in iter {
         let tok = match t {
-            "+" => Token::Bin(BinaryOperator::Add),
-            "-" => Token::Bin(BinaryOperator::Sub),
-            "*" => Token::Bin(BinaryOperator::Mul),
-            "/" => Token::Bin(BinaryOperator::Div),
-            "%" => Token::Bin(BinaryOperator::Mod),
+            "+" => Token::Add,
+            "-" => Token::Sub,
+            "*" => Token::Mul,
+            "/" => Token::Div,
+            "%" => Token::Mod,
 
-            "abs" => Token::Un(UnaryOperator::Abs),
-            "neg" => Token::Un(UnaryOperator::Neg),
+            "abs" => Token::Abs,
+            "neg" => Token::Neg,
 
             "dup" => Token::Dup,
             "drop" => Token::Drop,
@@ -70,27 +76,20 @@ fn parse_to_num(s: &str) -> Option<Token> {
 pub enum Token {
     Int(i32),
     Float(f32),
-    Bin(BinaryOperator),
-    Un(UnaryOperator),
+
+    Add,
+    Sub,
+    Mul,
+    Div,
+    Mod,
+
+    Abs,
+    Neg,
+
     Dup,
     Drop,
     Swap,
     Over,
     Rot,
     Eof,
-}
-
-#[derive(Debug)]
-pub enum BinaryOperator {
-    Add,
-    Sub,
-    Mul,
-    Div,
-    Mod,
-}
-
-#[derive(Debug)]
-pub enum UnaryOperator {
-    Abs,
-    Neg,
 }
