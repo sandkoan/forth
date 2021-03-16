@@ -23,7 +23,6 @@ pub fn eval(mut stack: Vec<Token>) {
 }
 
 pub fn lex(s: &str) -> Vec<Token> {
-    println!("{}", s);
     let iter = s.split_ascii_whitespace().into_iter();
 
     let mut stack: Vec<Token> = vec![];
