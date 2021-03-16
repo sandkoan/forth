@@ -1,35 +1,25 @@
 use rustyline::error::ReadlineError;
 use rustyline::Editor;
+use std::io;
 use std::collections::VecDeque;
 use crate::Token::{Int, Float};
+use std::io::Read;
 
 fn main() {
-    // let mut rl = Editor::<()>::new();
-    // loop {
-    //     let readline = rl.readline(">> ");
-    //     match readline {
-    //         Ok(line) => {
-    //             rl.add_history_entry(line.as_str());
-    //             eval(lex(line.as_str()));
-    //         }
-    //         Err(ReadlineError::Interrupted) | Err(ReadlineError::Eof) => {
-    //             println!("Goodbye...!");
-    //             break;
-    //         }
-    //         Err(err) => {
-    //             println!("Error: {:?}", err);
-    //             break;
-    //         }
-    //     }
-    // }
-    //
-    // rl.save_history(".postfix_history").unwrap();
-
+    let mut input = String::new();
+    loop {
+        match io::stdin().read_line(&mut input) {
+            Ok(n) => {
+                println!("{}", input);
+                println!("{:?}", lex(input.as_str()))
+            }
+            Err(error) => println!("error: {}", error),
+        }
+    }
 }
 
 pub fn eval(mut stack: Vec<Token>) {
     let top = stack.pop().unwrap();
-    match top {}
 }
 
 pub fn lex(s: &str) -> Vec<Token> {
@@ -58,7 +48,7 @@ pub fn lex(s: &str) -> Vec<Token> {
                 match parse_to_num(t) {
                     Some(Int(i)) => Int(i),
                     Some(Float(f)) => Float(f),
-                    None => Token::Eof,
+                    None | _ => Token::Eof,
                 }
             }
         };
@@ -67,8 +57,8 @@ pub fn lex(s: &str) -> Vec<Token> {
     stack
 }
 
-fn parse_to_num(s: &str) -> Option<Value> {
-    if let Ok(i) = s.parse() {  // inferred as isize from next line
+fn parse_to_num(s: &str) -> Option<Token> {
+    if let Ok(i) = s.parse() {
         Some(Int(i))
     } else if let Ok(f) = s.parse() {
         Some(Float(f))
