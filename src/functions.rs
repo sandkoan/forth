@@ -157,4 +157,3 @@ pub fn fgte(data_stack: &mut VecDeque<i32>) {
         }
     }
 }
-

@@ -6,8 +6,25 @@ mod eval;
 mod functions;
 
 fn main() {
-    // let builtin = ["add (+)", "sub (-)", "mul (*)", "div (/)", "mod (%)", "pow (**)",
-    //     "abs", "neg", "dup", "drop", "swap", "over", "rot (top three stack elements)", "clear (the stack)", "exit"];
+    let builtin = [
+        "add (+)",
+        "sub (-)",
+        "mul (*)",
+        "div (/)",
+        "mod (%)",
+        "pow (**)",
+        "dot (.) (prints out top of stack)",
+        "dump (prints out whole stack)",
+        "abs",
+        "neg",
+        "dup",
+        "drop",
+        "swap",
+        "over",
+        "rot (top three stack elements)",
+        "clear (the stack)",
+        "exit"
+    ];
 
     println!("Builtin Functions:");
     println!("{:?}", builtin);

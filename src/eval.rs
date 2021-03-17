@@ -15,11 +15,10 @@ pub fn eval(s: &str) {
             "div" | "/" => functions::fdiv(&mut data_stack),
             "mod" | "%" => functions::fmod(&mut data_stack),
             "pow" | "**" => functions::fpow(&mut data_stack),
+            "dot" | "." => functions::fdot(&mut data_stack),
 
             "abs" => functions::fabs(&mut data_stack),
             "neg" => functions::fneg(&mut data_stack),
-
-            "." => functions::fdot(&mut data_stack),
 
             "eq" | "=" => functions::feq(&mut data_stack),
             "lt" | "<" => functions::flt(&mut data_stack),
