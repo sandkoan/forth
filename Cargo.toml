@@ -1,5 +1,5 @@
 [package]
-name = "postfix"
+name = "factor"
 version = "0.1.0"
 authors = ["Govind Gnanakumar <govind.gnanakumar@outlook.com>"]
 edition = "2018"
