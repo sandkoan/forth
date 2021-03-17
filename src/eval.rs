@@ -1,7 +1,7 @@
 use std::collections::VecDeque;
 
 pub fn eval(s: &str) {
-    let iter = s.split_ascii_whitespace().into_iter();
+    let iter = s.split_ascii_whitespace();
 
     let mut stack: VecDeque<i32> = VecDeque::new();
 
@@ -42,6 +42,13 @@ pub fn eval(s: &str) {
                     }
                 }
             }
+            "**" | "pow" => {
+                if let Some(a) = stack.pop_back() {
+                    if let Some(b) = stack.pop_back() {
+                        stack.push_back(b.pow(a as u32));
+                    }
+                }
+            }
             "abs" => {
                 if let Some(a) = stack.pop_back() {
                     stack.push_back(a.abs());
@@ -78,7 +85,17 @@ pub fn eval(s: &str) {
                     }
                 }
             }
-            "rot" => {}
+            "rot" => {
+                if let Some(a) = stack.pop_back() {
+                    if let Some(b) = stack.pop_back() {
+                        if let Some(c) = stack.pop_back() {
+                            stack.push_back(b);
+                            stack.push_back(a);
+                            stack.push_back(c);
+                        }
+                    }
+                }
+            }
 
             "clear" => {
                 stack.clear();
