@@ -49,7 +49,7 @@ pub fn lex(s: &str) -> VecDeque<Token> {
                 match parse_to_num(t) {
                     Some(Int(i)) => Int(i),
                     Some(Float(f)) => Float(f),
-                    None | _ => Token::Eof,
+                    _ => Token::Eof,
                 }
             }
         };
