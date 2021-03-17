@@ -1,14 +1,12 @@
 use std::collections::VecDeque;
-use crate::eval::Val::{Int, Float};
-
 
 pub fn eval(s: &str) {
     let iter = s.split_ascii_whitespace().into_iter();
 
-    let mut stack: VecDeque<Val> = VecDeque::new();
-    for t in iter {
+    let mut stack: VecDeque<i32> = VecDeque::new();
+    for it in iter {
         if stack.len() >= 1 {
-            match t {
+            match it {
                 "+" | "add" => {
                     if let Some(a) = stack.pop_back() {
                         if let Some(b) = stack.pop_back() {
@@ -79,10 +77,9 @@ pub fn eval(s: &str) {
                 // "rot" => {}
 
                 _ => {
-                    match parse_to_num(t) {
-                        Some(Int(i)) => { stack.push_back(Int(i)); }
-                        Some(Float(f)) => { stack.push_back(Float(f)); }
-                        _ => None,
+                    match parse_to_num(it) {
+                        Some(i) => { stack.push_back(i); }
+                        _ => {}
                     }
                 }
             }
@@ -92,17 +89,10 @@ pub fn eval(s: &str) {
     println!("{:?}", stack);
 }
 
-#[derive(Debug, Clone, Copy)]
-pub enum Val {
-    Int(i32),
-    Float(f32),
-}
 
-fn parse_to_num(s: &str) -> Option<Val> {
+fn parse_to_num(s: &str) -> Option<i32> {
     if let Ok(i) = s.parse() {
-        Some(Int(i))
-    } else if let Ok(f) = s.parse() {
-        Some(Float(f))
+        Some(i)
     } else {
         None
     }
