@@ -1,35 +1,58 @@
 use std::collections::VecDeque;
-use crate::eval::Token::{Int, Float};
 use crate::eval::Val::{Int, Float};
 
 
-pub fn eval(s: &str) -> VecDeque<Val> {
+pub fn eval(s: &str) {
     let iter = s.split_ascii_whitespace().into_iter();
 
     let mut stack: VecDeque<Val> = VecDeque::new();
     for t in iter {
-        if !stack.is_empty() {
+        if stack.len() >= 1 {
             match t {
-                "+" => {
-                    stack.push_back(stack.pop_back().unwrap() + stack.pop_back().unwrap());
+                "+" | "add" => {
+                    if let Some(a) = stack.pop_back() {
+                        if let Some(b) = stack.pop_back() {
+                            stack.push_back(b + a);
+                        }
+                    }
                 }
-                "-" => {
-                    stack.push_back(stack.pop_back().unwrap() - stack.pop_back().unwrap());
+                "-" | "sub" => {
+                    if let Some(a) = stack.pop_back() {
+                        if let Some(b) = stack.pop_back() {
+                            stack.push_back(b - a);
+                        }
+                    }
                 }
-                "*" => {
-                    stack.push_back(stack.pop_back().unwrap() * stack.pop_back().unwrap());
+                "*" | "mul" => {
+                    if let Some(a) = stack.pop_back() {
+                        if let Some(b) = stack.pop_back() {
+                            stack.push_back(b * a);
+                        }
+                    }
                 }
-                "/" => {
-                    stack.push_back(stack.pop_back().unwrap() / stack.pop_back().unwrap());
+                "/" | "div" => {
+                    if let Some(a) = stack.pop_back() {
+                        if let Some(b) = stack.pop_back() {
+                            stack.push_back(b / a);
+                        }
+                    }
                 }
-                "%" => {
-                    stack.push_back(stack.pop_back().unwrap() % stack.pop_back().unwrap());
+                "%" | "mod" => {
+                    if let Some(a) = stack.pop_back() {
+                        if let Some(b) = stack.pop_back() {
+                            stack.push_back(b % a);
+                        }
+                    }
                 }
                 "abs" => {
-                    stack.push_back(stack.pop_back().unwrap().abs());
+                    if let Some(a) = stack.pop_back() {
+                        stack.push_back(a.abs());
+                    }
                 }
                 "neg" => {
-                    stack.push_back(-stack.pop_back().unwrap());
+                    if let Some(a) = stack.pop_back() {
+                        stack.push_back(-a);
+                    }
                 }
                 "dup" => {
                     if let Some(peek) = stack.pop_back() {
@@ -37,15 +60,28 @@ pub fn eval(s: &str) -> VecDeque<Val> {
                         stack.push_back(peek);
                     }
                 }
-                "drop" => Token::Drop,
-                "swap" => Token::Swap,
-                "over" => Token::Over,
-                "rot" => Token::Rot,
+                "drop" => {
+                    stack.pop_back();
+                }
+                "swap" => {
+                    if let Some(a) = stack.pop_back() {
+                        if let Some(b) = stack.pop_back() {
+                            stack.push_back(a);
+                            stack.push_back(b);
+                        }
+                    }
+                }
+                "over" => {
+                    if let Some(a) = stack.get(stack.len() - 2) {
+                        stack.push_back(*a);
+                    }
+                }
+                // "rot" => {}
 
                 _ => {
                     match parse_to_num(t) {
-                        Some(Int(i)) => Int(i),
-                        Some(Float(f)) => Float(f),
+                        Some(Int(i)) => { stack.push_back(Int(i)); }
+                        Some(Float(f)) => { stack.push_back(Float(f)); }
                         _ => None,
                     }
                 }
@@ -53,10 +89,10 @@ pub fn eval(s: &str) -> VecDeque<Val> {
         }
     }
 
-    stack
+    println!("{:?}", stack);
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone, Copy)]
 pub enum Val {
     Int(i32),
     Float(f32),
