@@ -96,7 +96,6 @@ pub fn eval(s: &str) {
                     }
                 }
             }
-
             "clear" => {
                 stack.clear();
             }
