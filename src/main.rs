@@ -1,4 +1,3 @@
-mod lex;
 mod eval;
 
 use std::io;
@@ -11,7 +10,7 @@ fn main() {
         match io::stdin().read_line(&mut input) {
             Ok(_n) => {
                 println!("{}", input);
-                println!("{:?}", eval(lex(input.as_str())))
+                println!("{:?}", eval(input.as_str()))
             }
             Err(error) => println!("error: {}", error),
         }
