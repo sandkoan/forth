@@ -2,7 +2,7 @@
 
 A Stack-oriented language written in Rust
 
-## Builtin Functions
+### Builtin Functions
 
 - `add` (+),
 - `sub` (-)
