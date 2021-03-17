@@ -1,6 +1,6 @@
-mod functions;
-
 use std::collections::VecDeque;
+
+use crate::functions;
 
 pub fn eval(s: &str) {
     let iter = s.split_ascii_whitespace();
@@ -35,6 +35,8 @@ pub fn eval(s: &str) {
             "dump" => functions::fdump(&mut data_stack),
 
             "clear" => functions::fclear(&mut data_stack),
+
+            // ":" => functions::fnew_word(&mut data_stack, iter.next()),
 
             _ => {
                 if let Ok(n) = it.parse::<i32>() {

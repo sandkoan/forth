@@ -1,7 +1,9 @@
-mod eval;
-
 use std::io;
+
 use crate::eval::eval;
+
+mod eval;
+mod functions;
 
 fn main() {
     // let mut input = String::new();
