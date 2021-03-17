@@ -78,8 +78,10 @@ pub fn eval(s: &str) {
                     }
                 }
             }
-            "rot" => {
+            "rot" => {}
 
+            "clear" => {
+                stack.clear();
             }
 
             _ => {
