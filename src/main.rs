@@ -6,6 +6,7 @@ mod eval;
 mod functions;
 
 fn main() {
+    println!("Welcome to the Forth REPL! Type help for help.");
 
     let mut input: String;
 

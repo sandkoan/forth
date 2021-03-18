@@ -9,7 +9,7 @@ pub fn eval(s: &str) {
 
     for (index, val) in code.iter().enumerate() {
         match *val {
-            "/?" | "help" => functions::help(),
+            "help" | "/?" => functions::help(),
 
             "add" | "+" => functions::fadd(&mut data_stack),
             "sub" | "-" => functions::fsub(&mut data_stack),

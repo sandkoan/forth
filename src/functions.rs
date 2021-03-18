@@ -130,7 +130,7 @@ pub fn fgte(data_stack: &mut VecDeque<i32>) {
     }
 }
 
-pub fn fnew_word(data_stack: &mut VecDeque<i32>, index: &usize, code: &Vec<&str>) {
+pub fn fnew_word(data_stack: &mut VecDeque<i32>, index: &usize, code: &[&str]) {
     unimplemented!()
 }
 
@@ -157,5 +157,5 @@ pub fn help() {
 
     println!("Forth is a postfix, Stack-oriented programming language.");
     println!("Builtin functions:");
-    for i in builtin { println!(i); }
+    builtin.iter().for_each(|x| println!("{}", x))
 }
