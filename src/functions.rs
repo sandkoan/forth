@@ -157,3 +157,7 @@ pub fn fgte(data_stack: &mut VecDeque<i32>) {
         }
     }
 }
+
+pub fn fnew_word(data_stack: &mut VecDeque<i32>, index: &usize, code: &Vec<&str>) {
+    unimplemented!()
+}

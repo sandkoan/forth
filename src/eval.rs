@@ -3,12 +3,12 @@ use std::collections::VecDeque;
 use crate::functions;
 
 pub fn eval(s: &str) {
-    let iter = s.split_ascii_whitespace();
+    let code: Vec<&str> = s.split_ascii_whitespace().collect();
 
     let mut data_stack: VecDeque<i32> = VecDeque::new();
 
-    for it in iter {
-        match it {
+    for (index, val) in code.iter().enumerate() {
+        match *val {
             "add" | "+" => functions::fadd(&mut data_stack),
             "sub" | "-" => functions::fsub(&mut data_stack),
             "mul" | "*" => functions::fmul(&mut data_stack),
@@ -35,10 +35,10 @@ pub fn eval(s: &str) {
 
             "clear" => functions::fclear(&mut data_stack),
 
-            // ":" => functions::fnew_word(&mut data_stack, iter.next()),
+            ":" => functions::fnew_word(&mut data_stack, &index, &code),
 
             _ => {
-                if let Ok(n) = it.parse::<i32>() {
+                if let Ok(n) = val.parse::<i32>() {
                     data_stack.push_back(n);
                 }
             }

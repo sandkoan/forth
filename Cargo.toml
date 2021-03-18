@@ -1,5 +1,5 @@
 [package]
-name = "factor"
+name = "forth"
 version = "0.1.0"
 authors = ["Govind Gnanakumar <govind.gnanakumar@outlook.com>"]
 edition = "2018"
