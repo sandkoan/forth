@@ -7,8 +7,8 @@ pub fn eval(s: &str) {
 
     let mut data_stack: VecDeque<i32> = VecDeque::new();
 
-    for (index, val) in code.iter().enumerate() {
-        match *val {
+    for (index, &val) in code.iter().enumerate() {
+        match val {
             "help" | "/?" => functions::help(),
 
             "add" | "+" => functions::fadd(&mut data_stack),
@@ -19,14 +19,15 @@ pub fn eval(s: &str) {
             "pow" | "**" => functions::fpow(&mut data_stack),
             "dot" | "." => functions::fdot(&mut data_stack),
 
-            "abs" => functions::fabs(&mut data_stack),
-            "neg" => functions::fneg(&mut data_stack),
+            "lte" | "<=" => functions::flte(&mut data_stack),
+            "gte" | ">=" => functions::fgte(&mut data_stack),
 
             "eq" | "=" => functions::feq(&mut data_stack),
             "lt" | "<" => functions::flt(&mut data_stack),
-            "lte" | "<=" => functions::flte(&mut data_stack),
             "gt" | ">" => functions::fgt(&mut data_stack),
-            "gte" | ">=" => functions::fgte(&mut data_stack),
+
+            "abs" => functions::fabs(&mut data_stack),
+            "neg" => functions::fneg(&mut data_stack),
 
             "drop" => functions::fdrop(&mut data_stack),
             "dup" => functions::fdup(&mut data_stack),
