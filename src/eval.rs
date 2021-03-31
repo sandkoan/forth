@@ -1,13 +1,14 @@
-use std::collections::VecDeque;
+use std::collections::HashMap;
+use std::vec;
 
 use crate::functions;
 
 pub fn eval(s: &str) {
-    let code: Vec<&str> = s.split_ascii_whitespace().collect();
+    let mut tokens = s.split_ascii_whitespace();
+    let mut data_stack: Vec<i32> = Vec::new();
+    let mut word_dict: HashMap<&str, &mut str> = HashMap::new();
 
-    let mut data_stack: VecDeque<i32> = VecDeque::new();
-
-    for (index, &val) in code.iter().enumerate() {
+    while let Some(val) = tokens.next() {
         match val {
             "help" | "/?" => functions::help(),
 
@@ -38,11 +39,11 @@ pub fn eval(s: &str) {
 
             "clear" => functions::fclear(&mut data_stack),
 
-            ":" => functions::fnew_word(&mut data_stack, &index, &code),
+            ":" => functions::fnew_word(&mut tokens, &mut word_dict),
 
             _ => {
                 if let Ok(n) = val.parse::<i32>() {
-                    data_stack.push_back(n);
+                    data_stack.push(n);
                 }
             }
         }
